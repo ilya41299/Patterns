@@ -5,47 +5,45 @@
 Глобальные переменные не защищены от записи, поэтому любой код может подменять их значения без вашего ведома.*/
 #include "stdafx.h"
 #include <iostream>
-class Singleton 
+class Singleton
 {
-	private:
-		
-		//Конструкторы и операторы присваивания недоступны пользователю
-		Singleton() = default; 
-		~Singleton() = default;
+private:
+    //Конструкторы и операторы присваивания недоступны пользователю
+    Singleton() = default;
+    ~Singleton() = default;
 
-		//Также недоступны операторы new, копирования и присваивающего копирования
-		void* operator new(std::size_t) = delete;
-		Singleton(const Singleton&) = delete; 
-		Singleton& operator=(Singleton&) = delete;
-	
-	public:
-		//Для создания объекта класса используется ункция getInstance, которая единожды создаёт объект p_instance
-		static Singleton * getInstance()
-		{
-			static  Singleton * p_instance;
-			return p_instance;
-		}
+    //Также недоступны операторы new, копирования и присваивающего копирования
+    void* operator new(std::size_t) = delete;
+    Singleton(const Singleton&) = delete;
+    Singleton& operator=(Singleton&) = delete;
+
+public:
+    //Для создания объекта класса используется ункция getInstance, которая единожды создаёт объект
+    //p_instance
+    static Singleton* getInstance()
+    {
+        static Singleton* p_instance;
+        return p_instance;
+    }
 };
 
-void foo() 
+void foo()
 {
-	auto a = Singleton::getInstance();
-	std::cout << &a << std::endl;
-
+    auto a = Singleton::getInstance();
+    std::cout << &a << std::endl;
 }
 
-void bar() 
+void bar()
 {
-	auto b = Singleton::getInstance();
-	std::cout << &b << std::endl;
+    auto b = Singleton::getInstance();
+    std::cout << &b << std::endl;
 }
 
 //Чтобы убедиться в том, что переменная не создаётся вновь добавим две функции bar и foo.
 //Обе функции выведут на экран одинаковый адрес
 int main()
 {
-	foo();
-	bar();
+    foo();
+    bar();
     return 0;
 }
-
