@@ -11,9 +11,9 @@ private:
     //Конструкторы и операторы присваивания недоступны пользователю
     Singleton() = default;
     ~Singleton() = default;
+    static Singleton * p_instance;
 
-    //Также недоступны операторы new, копирования и присваивающего копирования
-    void* operator new(std::size_t) = delete;
+    //Также недоступны операторы new, копирования и присваивающего копированиЯ
     Singleton(const Singleton&) = delete;
     Singleton& operator=(Singleton&) = delete;
 
@@ -22,10 +22,16 @@ public:
     //p_instance
     static Singleton* getInstance()
     {
-        static Singleton* p_instance;
+        if(!p_instance) { p_instance = new Singleton;}
         return p_instance;
     }
+    static void clear()
+    {
+        delete p_instance;
+    }
 };
+
+Singleton * Singleton::p_instance = nullptr;
 
 void foo()
 {
